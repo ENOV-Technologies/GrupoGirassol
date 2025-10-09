@@ -42,27 +42,12 @@ export const sendContactEmails = async (
 ): Promise<SendEmailResult> => {
   const data = validate(formData);
 
-  // For production deployment, you'll need to:
-  // 1. Deploy the server.js to a hosting service (Vercel, Railway, etc.)
-  // 2. Set VITE_PUBLIC_API_URL to your deployed backend URL
-  // 3. Ensure SMTP env variables are set on the backend server
+  // Use environment variable or fallback to production URL
+  const apiUrl = import.meta.env.VITE_PUBLIC_API_URL || "https://grupo-girassol-ng1bxrf6i-hmassadicos-projects.vercel.app";
   
-  const apiUrl = import.meta.env.VITE_PUBLIC_API_URL;
-  
-  if (!apiUrl) {
-    // Development mode - show helpful message
-    console.log("📧 Contact Form Submission:", data);
-    
-    return {
-      success: true,
-      message: "Formulário validado com sucesso! Para enviar emails reais, configure VITE_PUBLIC_API_URL com o URL do seu backend."
-    };
-  }
-
-  // Production mode - call actual backend
   const url = `${apiUrl.replace(/\/+$/, "")}/api/send-email`;
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 20_000);
+  const timeout = setTimeout(() => controller.abort(), 30_000); // Increased to 30s for production
 
   try {
     const res = await fetch(url, {
@@ -94,7 +79,16 @@ export const sendContactEmails = async (
     if (err?.name === "AbortError") {
       throw new Error("Tempo de envio esgotado. Tente novamente.");
     }
-    console.error("Email sending failed:", err);
+    
+    // Log error in production for debugging
+    if (import.meta.env.PROD) {
+      console.error("Email sending failed:", {
+        message: err?.message,
+        url,
+        timestamp: new Date().toISOString(),
+      });
+    }
+    
     throw new Error(
       err?.message ||
         "Falha ao enviar emails. Verifique sua conexão e tente novamente.",

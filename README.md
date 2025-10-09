@@ -2,47 +2,38 @@
 
 A modern website for Grupo Girassol built with React, Vite, and Tailwind CSS.
 
-## Features
-
-- 🏗️ Construction services showcase
-- 📧 Contact form with email notifications
-- 🎨 Modern UI with Tailwind CSS
-- 📱 Fully responsive design
-- ⚡ Fast performance with Vite
-
-## Deployment to Vercel
+## 🚀 Production Deployment
 
 ### Prerequisites
 
 1. A Vercel account (sign up at [vercel.com](https://vercel.com))
 2. SMTP credentials for email functionality
 
-### Step 1: Install Vercel CLI (Optional)
+### Deploy to Vercel
 
-```bash
-npm install -g vercel
-```
-
-### Step 2: Deploy to Vercel
-
-#### Option A: Using Vercel CLI
-
-```bash
-# Login to Vercel
-vercel login
-
-# Deploy
-vercel
-```
-
-#### Option B: Using Vercel Dashboard
+#### Option A: Using Vercel Dashboard (Recommended)
 
 1. Push your code to GitHub
 2. Go to [vercel.com/new](https://vercel.com/new)
 3. Import your repository
 4. Vercel will auto-detect the Vite configuration
+5. Configure environment variables (see below)
+6. Deploy!
 
-### Step 3: Configure Environment Variables
+#### Option B: Using Vercel CLI
+
+```bash
+# Install Vercel CLI
+npm install -g vercel
+
+# Login to Vercel
+vercel login
+
+# Deploy to production
+vercel --prod
+```
+
+### Environment Variables
 
 In your Vercel project dashboard, go to **Settings → Environment Variables** and add:
 
@@ -56,17 +47,9 @@ VITE_ALLOWED_ORIGIN=https://your-domain.vercel.app
 VITE_PUBLIC_API_URL=https://your-domain.vercel.app
 ```
 
-### Step 4: Redeploy
+**Important:** Set these for **Production**, **Preview**, and **Development** environments.
 
-After adding environment variables, trigger a new deployment:
-
-```bash
-vercel --prod
-```
-
-Or use the Vercel dashboard to redeploy.
-
-## Local Development
+## 🛠️ Local Development
 
 ```bash
 # Install dependencies
@@ -82,7 +65,17 @@ npm run build
 npm run preview
 ```
 
-## Project Structure
+## 📦 Production Optimizations
+
+- ✅ Code splitting for vendor and UI libraries
+- ✅ Minification with Terser
+- ✅ Security headers (X-Frame-Options, CSP, etc.)
+- ✅ Asset caching (1 year for static assets)
+- ✅ SEO meta tags and Open Graph
+- ✅ 30s timeout for API calls
+- ✅ Production error logging
+
+## 📁 Project Structure
 
 ```
 ├── api/                    # Vercel serverless functions
@@ -96,10 +89,25 @@ npm run preview
 └── vercel.json          # Vercel configuration
 ```
 
-## Email Functionality
+## 🔒 Security Features
 
-The contact form uses Vercel serverless functions to send emails via SMTP. Make sure to configure your SMTP credentials in the environment variables.
+- Security headers (X-Frame-Options, X-Content-Type-Options, X-XSS-Protection)
+- CORS configuration
+- Input validation
+- Environment variable protection
 
-## Support
+## 📧 Email Functionality
+
+The contact form uses Vercel serverless functions to send emails via SMTP. Emails are sent to both the admin and the customer with professional templates.
+
+## 🌐 Production URL
+
+Current deployment: https://grupo-girassol-ng1bxrf6i-hmassadicos-projects.vercel.app
+
+## 📞 Support
 
 For issues or questions, contact: geral@grupogirassol.co.ao
+
+## 📄 License
+
+© 2024 Grupo Girassol - All rights reserved
