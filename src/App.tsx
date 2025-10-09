@@ -8,8 +8,12 @@ import Products from "./pages/Products";
 import Contact from "./pages/Contact";
 import Loading from "./components/ui/loading";
 import { Toaster } from "./components/ui/toaster";
-import routes from "tempo-routes";
 import GoldenRose from "@/pages/Goldenrose.tsx";
+
+// Conditionally import tempo-routes only in Tempo environment
+const routes = import.meta.env.VITE_TEMPO === "true" 
+  ? await import("tempo-routes").then(m => m.default).catch(() => [])
+  : [];
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
