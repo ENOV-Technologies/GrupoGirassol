@@ -1,30 +1,105 @@
-# React + TypeScript + Vite
+# Grupo Girassol Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern website for Grupo Girassol built with React, Vite, and Tailwind CSS.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 🏗️ Construction services showcase
+- 📧 Contact form with email notifications
+- 🎨 Modern UI with Tailwind CSS
+- 📱 Fully responsive design
+- ⚡ Fast performance with Vite
 
-## Expanding the ESLint configuration
+## Deployment to Vercel
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### Prerequisites
 
-- Configure the top-level `parserOptions` property like this:
+1. A Vercel account (sign up at [vercel.com](https://vercel.com))
+2. SMTP credentials for email functionality
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+### Step 1: Install Vercel CLI (Optional)
+
+```bash
+npm install -g vercel
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+### Step 2: Deploy to Vercel
+
+#### Option A: Using Vercel CLI
+
+```bash
+# Login to Vercel
+vercel login
+
+# Deploy
+vercel
+```
+
+#### Option B: Using Vercel Dashboard
+
+1. Push your code to GitHub
+2. Go to [vercel.com/new](https://vercel.com/new)
+3. Import your repository
+4. Vercel will auto-detect the Vite configuration
+
+### Step 3: Configure Environment Variables
+
+In your Vercel project dashboard, go to **Settings → Environment Variables** and add:
+
+```
+VITE_SMTP_HOST=your-smtp-host
+VITE_SMTP_PORT=587
+VITE_SMTP_USER=your-email@example.com
+VITE_SMTP_PASS=your-email-password
+VITE_ADMIN_EMAIL=admin@grupogirassol.co.ao
+VITE_ALLOWED_ORIGIN=https://your-domain.vercel.app
+VITE_PUBLIC_API_URL=https://your-domain.vercel.app
+```
+
+### Step 4: Redeploy
+
+After adding environment variables, trigger a new deployment:
+
+```bash
+vercel --prod
+```
+
+Or use the Vercel dashboard to redeploy.
+
+## Local Development
+
+```bash
+# Install dependencies
+npm install
+
+# Start dev server
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+```
+
+## Project Structure
+
+```
+├── api/                    # Vercel serverless functions
+│   └── send-email.js      # Email API endpoint
+├── src/
+│   ├── components/        # React components
+│   ├── pages/            # Page components
+│   ├── lib/              # Utilities
+│   └── App.tsx           # Main app component
+├── public/               # Static assets
+└── vercel.json          # Vercel configuration
+```
+
+## Email Functionality
+
+The contact form uses Vercel serverless functions to send emails via SMTP. Make sure to configure your SMTP credentials in the environment variables.
+
+## Support
+
+For issues or questions, contact: geral@grupogirassol.co.ao

@@ -1,46 +1,72 @@
-const express = require('express');
-const cors = require('cors');
-const nodemailer = require('nodemailer');
-require('dotenv').config();
+import express from 'express';
+import cors from 'cors';
+import nodemailer from 'nodemailer';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express();
 const PORT = 3001;
 
-app.use(cors());
+// CORS configuration
+app.use(
+  cors({
+    origin: process.env.VITE_ALLOWED_ORIGIN || "*",
+    credentials: true,
+  }),
+);
+
 app.use(express.json());
 
-app.post('/api/send-email', async (req, res) => {
+app.post("/api/send-email", async (req, res) => {
   try {
     const { name, email, phone, company, service, message } = req.body;
 
     // Validate required fields
     if (!name || !email || !message) {
-      return res.status(400).json({ error: 'Nome, email e mensagem são obrigatórios' });
+      return res
+        .status(400)
+        .json({ error: "Nome, email e mensagem são obrigatórios" });
     }
 
+    // Service styling configuration
+    const serviceStyles = {
+      "Construção Civil": { color: "#E8A341", icon: "🏗️" },
+      Remodelação: { color: "#D4941F", icon: "🔨" },
+      Pintura: { color: "#C88419", icon: "🎨" },
+      Carpintaria: { color: "#B87413", icon: "🪚" },
+      Serralharia: { color: "#A8640D", icon: "⚒️" },
+      "Manutenção Automotiva": { color: "#985407", icon: "🚗" },
+      "Lavagem de Carros": { color: "#884401", icon: "💧" },
+      Outro: { color: "#6c757d", icon: "📋" },
+    };
+
+    const serviceStyle = serviceStyles[service] || serviceStyles["Outro"];
+
     // Create transporter
-    const transporter = nodemailer.createTransporter({
+    const transporter = nodemailer.createTransport({
       host: process.env.VITE_SMTP_HOST,
       port: parseInt(process.env.VITE_SMTP_PORT),
-      secure: false, // true for 465, false for other ports
+      secure: parseInt(process.env.VITE_SMTP_PORT) === 465,
       auth: {
         user: process.env.VITE_SMTP_USER,
         pass: process.env.VITE_SMTP_PASS,
       },
     });
 
-    const currentDate = new Date().toLocaleDateString('pt-AO', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
+    const currentDate = new Date().toLocaleString("pt-AO", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     });
 
     // Admin notification email
     const adminMailOptions = {
       from: `"Grupo Girassol Website" <${process.env.VITE_SMTP_USER}>`,
       to: process.env.VITE_ADMIN_EMAIL,
+      replyTo: email,
       subject: `🔔 Nova Solicitação de Orçamento - ${name}`,
       html: `
         <!DOCTYPE html>
@@ -72,9 +98,9 @@ app.post('/api/send-email', async (req, res) => {
                 <h3>👤 Informações do Cliente:</h3>
                 <p><strong>Nome:</strong> ${name}</p>
                 <p><strong>E-mail:</strong> <a href="mailto:${email}">${email}</a></p>
-                <p><strong>Telefone:</strong> ${phone || 'Não informado'}</p>
-                <p><strong>Empresa:</strong> ${company || 'Não informado'}</p>
-                <p><strong>Serviço de Interesse:</strong> <span style="background: #E8A341; color: white; padding: 4px 8px; border-radius: 4px;">${service || 'Não especificado'}</span></p>
+                <p><strong>Telefone:</strong> ${phone || "Não informado"}</p>
+                <p><strong>Empresa:</strong> ${company || "Não informado"}</p>
+                <p><strong>Serviço de Interesse:</strong> <span style="background: #E8A341; color: white; padding: 4px 8px; border-radius: 4px;">${service || "Não especificado"}</span></p>
               </div>
 
               <div class="message-box">
@@ -95,14 +121,14 @@ app.post('/api/send-email', async (req, res) => {
           </div>
         </body>
         </html>
-      `
+      `,
     };
 
     // User confirmation email
     const userMailOptions = {
       from: `"Grupo Girassol" <${process.env.VITE_SMTP_USER}>`,
       to: email,
-      subject: 'Confirmação de Solicitação - Grupo Girassol',
+      subject: "Confirmação de Solicitação - Grupo Girassol",
       html: `
         <!DOCTYPE html>
         <html>
@@ -134,9 +160,9 @@ app.post('/api/send-email', async (req, res) => {
                 <h4>📋 Detalhes da Solicitação:</h4>
                 <p><strong>Nome:</strong> ${name}</p>
                 <p><strong>E-mail:</strong> ${email}</p>
-                <p><strong>Telefone:</strong> ${phone || 'Não informado'}</p>
-                <p><strong>Empresa:</strong> ${company || 'Não informado'}</p>
-                <p><strong>Serviço:</strong> ${service || 'Não especificado'}</p>
+                <p><strong>Telefone:</strong> ${phone || "Não informado"}</p>
+                <p><strong>Empresa:</strong> ${company || "Não informado"}</p>
+                <p><strong>Serviço:</strong> ${service || "Não especificado"}</p>
                 <p><strong>Descrição do Projeto:</strong></p>
                 <p style="background: #f5f5f5; padding: 15px; border-radius: 4px; font-style: italic;">${message}</p>
               </div>
@@ -166,29 +192,36 @@ app.post('/api/send-email', async (req, res) => {
           </div>
         </body>
         </html>
-      `
+      `,
     };
 
     // Send both emails
     await Promise.all([
       transporter.sendMail(adminMailOptions),
-      transporter.sendMail(userMailOptions)
+      transporter.sendMail(userMailOptions),
     ]);
 
-    res.status(200).json({ 
-      success: true, 
-      message: 'Emails enviados com sucesso!' 
+    res.status(200).json({
+      success: true,
+      message: "Emails enviados com sucesso!",
     });
-
   } catch (error) {
-    console.error('Email sending error:', error);
-    res.status(500).json({ 
-      error: 'Falha ao enviar emails', 
-      details: error.message 
+    console.error("Email sending error:", error);
+    res.status(500).json({
+      error: "Falha ao enviar emails",
+      details: error.message,
     });
   }
 });
 
+// Health check endpoint
+app.get("/api/health", (req, res) => {
+  res.json({ status: "ok", message: "Email API is running" });
+});
+
 app.listen(PORT, () => {
-  console.log(`Email API server running on port ${PORT}`);
+  console.log(`✅ Email API server running on http://localhost:${PORT}`);
+  console.log(
+    `📧 SMTP configured: ${process.env.VITE_SMTP_HOST}:${process.env.VITE_SMTP_PORT}`,
+  );
 });
