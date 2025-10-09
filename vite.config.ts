@@ -3,14 +3,11 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { tempo } from "tempo-devtools/dist/vite";
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), tempo()],
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src"),
-    },
-  },
+  resolve: { alias: { "@": path.resolve(__dirname, "./src") } },
+
+  // Single, merged build config
   build: {
     sourcemap: false,
     minify: "esbuild",
@@ -23,7 +20,16 @@ export default defineConfig({
       },
     },
   },
+
+  // Single, merged server config
   server: {
+    proxy: {
+      "/api": {
+        target: "http://localhost:3001",
+        changeOrigin: true,
+      },
+    },
+    // Allow Tempo preview hosts (optional)
     // @ts-ignore
     allowedHosts: process.env.TEMPO === "true" ? true : undefined,
   },

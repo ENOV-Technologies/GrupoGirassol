@@ -1,4 +1,3 @@
-// src/lib/emailService.ts
 export interface ContactFormData {
   name: string;
   email: string;
@@ -13,7 +12,6 @@ export interface SendEmailResult {
   message: string;
 }
 
-/** Basic client-side validation (no external libs). */
 function validate(data: ContactFormData) {
   const trimmed = {
     ...data,
@@ -25,37 +23,33 @@ function validate(data: ContactFormData) {
     message: data.message?.trim(),
   };
 
-  if (!trimmed.name || trimmed.name.length < 2) {
+  if (!trimmed.name || trimmed.name.length < 2)
     throw new Error("Informe um nome válido.");
-  }
-  if (!trimmed.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed.email)) {
+  if (!trimmed.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed.email))
     throw new Error("Informe um e-mail válido.");
-  }
-  if (!trimmed.message || trimmed.message.length < 5) {
+  if (!trimmed.message || trimmed.message.length < 5)
     throw new Error("A mensagem deve ter pelo menos 5 caracteres.");
-  }
+
   return trimmed;
 }
 
 export const sendContactEmails = async (
-  formData: ContactFormData,
+  formData: ContactFormData
 ): Promise<SendEmailResult> => {
   const data = validate(formData);
 
-  // Use environment variable or fallback to production URL
-  const apiUrl = import.meta.env.VITE_PUBLIC_API_URL || "https://grupo-girassol-ng1bxrf6i-hmassadicos-projects.vercel.app";
-  
-  const url = `${apiUrl.replace(/\/+$/, "")}/api/send-email`;
+  // If API is deployed separately, set VITE_PUBLIC_API_URL=https://api.domain.com
+  const base =
+    (import.meta as any).env?.VITE_PUBLIC_API_URL?.replace(/\/+$/, "") || "";
+  const url = `${base}/api/send-email`;
+
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 30_000); // Increased to 30s for production
+  const timeout = setTimeout(() => controller.abort(), 20_000);
 
   try {
     const res = await fetch(url, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
       body: JSON.stringify(data),
       signal: controller.signal,
     });
@@ -64,11 +58,7 @@ export const sendContactEmails = async (
     const json = text ? JSON.parse(text) : {};
 
     if (!res.ok) {
-      const msg =
-        json?.error ||
-        json?.message ||
-        `Falha ao enviar emails (HTTP ${res.status})`;
-      throw new Error(msg);
+      throw new Error(json?.error || json?.message || `Falha (HTTP ${res.status})`);
     }
 
     return {
@@ -76,23 +66,9 @@ export const sendContactEmails = async (
       message: json?.message || "Emails enviados com sucesso!",
     };
   } catch (err: any) {
-    if (err?.name === "AbortError") {
-      throw new Error("Tempo de envio esgotado. Tente novamente.");
-    }
-    
-    // Log error in production for debugging
-    if (import.meta.env.PROD) {
-      console.error("Email sending failed:", {
-        message: err?.message,
-        url,
-        timestamp: new Date().toISOString(),
-      });
-    }
-    
-    throw new Error(
-      err?.message ||
-        "Falha ao enviar emails. Verifique sua conexão e tente novamente.",
-    );
+    if (err?.name === "AbortError") throw new Error("Tempo de envio esgotado.");
+    console.error("Email sending failed:", err);
+    throw new Error(err?.message || "Falha ao enviar emails.");
   } finally {
     clearTimeout(timeout);
   }
