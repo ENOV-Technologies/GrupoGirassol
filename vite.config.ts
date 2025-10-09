@@ -22,5 +22,17 @@ export default defineConfig({
   server: {
     // @ts-ignore
     allowedHosts: true,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3001',
+        changeOrigin: true,
+        configure: (proxy, options) => {
+          // Fallback to local API files if no server running
+          proxy.on('error', (err, req, res) => {
+            console.log('API proxy error, using local files');
+          });
+        }
+      }
+    }
   }
 });

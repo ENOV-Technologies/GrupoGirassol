@@ -6,6 +6,8 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useToast } from '@/components/ui/use-toast';
+import { sendContactEmails, type ContactFormData } from '@/lib/emailService';
 import {
     MapPin,
     Phone,
@@ -14,13 +16,18 @@ import {
     Send,
     MessageSquare,
     Users,
-    Building
+    Building,
+    Loader2,
+    CheckCircle,
+    AlertCircle
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Layout from '@/components/layout/Layout';
 
 const Contact = () => {
-    const [formData, setFormData] = useState({
+    const { toast } = useToast();
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [formData, setFormData] = useState<ContactFormData>({
         name: '',
         email: '',
         phone: '',
@@ -28,6 +35,34 @@ const Contact = () => {
         service: '',
         message: ''
     });
+    const [errors, setErrors] = useState<Record<string, string>>({});
+
+    const validateForm = () => {
+        const newErrors: Record<string, string> = {};
+
+        if (!formData.name.trim()) {
+            newErrors.name = 'Nome é obrigatório';
+        }
+
+        if (!formData.email.trim()) {
+            newErrors.email = 'E-mail é obrigatório';
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+            newErrors.email = 'E-mail inválido';
+        }
+
+        if (!formData.message.trim()) {
+            newErrors.message = 'Descrição do projeto é obrigatória';
+        } else if (formData.message.trim().length < 10) {
+            newErrors.message = 'Descrição deve ter pelo menos 10 caracteres';
+        }
+
+        if (formData.phone && !/^[\+]?[0-9\s\-\(\)]{9,}$/.test(formData.phone)) {
+            newErrors.phone = 'Formato de telefone inválido';
+        }
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -35,6 +70,14 @@ const Contact = () => {
             ...prev,
             [name]: value
         }));
+        
+        // Clear error when user starts typing
+        if (errors[name]) {
+            setErrors(prev => ({
+                ...prev,
+                [name]: ''
+            }));
+        }
     };
 
     const handleSelectChange = (value: string) => {
@@ -44,11 +87,63 @@ const Contact = () => {
         }));
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // Handle form submission here
-        console.log('Form submitted:', formData);
-        alert('Mensagem enviada com sucesso! Entraremos em contato em breve.');
+        
+        if (!validateForm()) {
+            toast({
+                title: "Erro no formulário",
+                description: "Por favor, corrija os erros antes de enviar.",
+                variant: "destructive",
+            });
+            return;
+        }
+
+        setIsSubmitting(true);
+
+        try {
+            await sendContactEmails(formData);
+            
+            toast({
+                title: "✅ Mensagem enviada com sucesso!",
+                description: (
+                    <div className="space-y-2">
+                        <p>Obrigado pelo seu interesse, {formData.name}!</p>
+                        <p>• Você receberá um e-mail de confirmação em breve</p>
+                        <p>• Nossa equipe entrará em contato em até 24 horas</p>
+                        <p>• Verifique sua caixa de spam se não receber o e-mail</p>
+                    </div>
+                ),
+                variant: "default",
+            });
+
+            // Reset form
+            setFormData({
+                name: '',
+                email: '',
+                phone: '',
+                company: '',
+                service: '',
+                message: ''
+            });
+            
+        } catch (error) {
+            console.error('Form submission error:', error);
+            toast({
+                title: "❌ Erro ao enviar mensagem",
+                description: (
+                    <div className="space-y-2">
+                        <p>Não foi possível enviar sua mensagem no momento.</p>
+                        <p>• Verifique sua conexão com a internet</p>
+                        <p>• Tente novamente em alguns minutos</p>
+                        <p>• Ou entre em contato diretamente: geral@grupogirassol.co.ao</p>
+                    </div>
+                ),
+                variant: "destructive",
+            });
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     const contactInfo = [
@@ -179,11 +274,27 @@ const Contact = () => {
                         >
                             <Card className="border-t-4 border-t-[#E8A341]">
                                 <CardHeader>
-                                    <CardTitle className="text-2xl">Solicite seu Orçamento</CardTitle>
+                                    <CardTitle className="text-2xl flex items-center gap-2">
+                                        <Mail className="h-6 w-6 text-[#E8A341]" />
+                                        Solicite seu Orçamento
+                                    </CardTitle>
                                     <p className="text-gray-600">
                                         Preencha o formulário abaixo e nossa equipe entrará em contato
                                         para apresentar a melhor solução para seu projeto.
                                     </p>
+                                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-4">
+                                        <div className="flex items-start gap-3">
+                                            <CheckCircle className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                                            <div className="text-sm text-blue-800">
+                                                <p className="font-medium mb-1">Após enviar o formulário:</p>
+                                                <ul className="space-y-1 text-blue-700">
+                                                    <li>• Você receberá um e-mail de confirmação</li>
+                                                    <li>• Nossa equipe responderá em até 24 horas</li>
+                                                    <li>• Agendaremos uma reunião se necessário</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </CardHeader>
                                 <CardContent>
                                     <form onSubmit={handleSubmit} className="space-y-6">
@@ -201,9 +312,15 @@ const Contact = () => {
                                                     value={formData.name}
                                                     onChange={handleInputChange}
                                                     placeholder="Seu nome completo"
-                                                    className="focus:border-[#E8A341] focus:ring-[#E8A341]"
-                                                    required
+                                                    className={`focus:border-[#E8A341] focus:ring-[#E8A341] ${errors.name ? 'border-red-500' : ''}`}
+                                                    disabled={isSubmitting}
                                                 />
+                                                {errors.name && (
+                                                    <p className="text-red-500 text-sm mt-1 flex items-center gap-1">
+                                                        <AlertCircle className="h-4 w-4" />
+                                                        {errors.name}
+                                                    </p>
+                                                )}
                                             </motion.div>
                                             <motion.div
                                                 initial={{ opacity: 0, y: 20 }}
@@ -219,9 +336,15 @@ const Contact = () => {
                                                     value={formData.email}
                                                     onChange={handleInputChange}
                                                     placeholder="seu@email.com"
-                                                    className="focus:border-[#E8A341] focus:ring-[#E8A341]"
-                                                    required
+                                                    className={`focus:border-[#E8A341] focus:ring-[#E8A341] ${errors.email ? 'border-red-500' : ''}`}
+                                                    disabled={isSubmitting}
                                                 />
+                                                {errors.email && (
+                                                    <p className="text-red-500 text-sm mt-1 flex items-center gap-1">
+                                                        <AlertCircle className="h-4 w-4" />
+                                                        {errors.email}
+                                                    </p>
+                                                )}
                                             </motion.div>
                                         </div>
 
@@ -239,8 +362,15 @@ const Contact = () => {
                                                     value={formData.phone}
                                                     onChange={handleInputChange}
                                                     placeholder="+244 XXX XXX XXX"
-                                                    className="focus:border-[#E8A341] focus:ring-[#E8A341]"
+                                                    className={`focus:border-[#E8A341] focus:ring-[#E8A341] ${errors.phone ? 'border-red-500' : ''}`}
+                                                    disabled={isSubmitting}
                                                 />
+                                                {errors.phone && (
+                                                    <p className="text-red-500 text-sm mt-1 flex items-center gap-1">
+                                                        <AlertCircle className="h-4 w-4" />
+                                                        {errors.phone}
+                                                    </p>
+                                                )}
                                             </motion.div>
                                             <motion.div
                                                 initial={{ opacity: 0, y: 20 }}
@@ -256,6 +386,7 @@ const Contact = () => {
                                                     onChange={handleInputChange}
                                                     placeholder="Nome da sua empresa"
                                                     className="focus:border-[#E8A341] focus:ring-[#E8A341]"
+                                                    disabled={isSubmitting}
                                                 />
                                             </motion.div>
                                         </div>
@@ -267,7 +398,7 @@ const Contact = () => {
                                             viewport={{ once: true }}
                                         >
                                             <Label htmlFor="service">Serviço de Interesse</Label>
-                                            <Select onValueChange={handleSelectChange}>
+                                            <Select onValueChange={handleSelectChange} disabled={isSubmitting}>
                                                 <SelectTrigger className="focus:border-[#E8A341] focus:ring-[#E8A341]">
                                                     <SelectValue placeholder="Selecione um serviço" />
                                                 </SelectTrigger>
@@ -295,18 +426,38 @@ const Contact = () => {
                                                 onChange={handleInputChange}
                                                 placeholder="Conte-nos mais sobre seu projeto, localização, prazos e necessidades específicas..."
                                                 rows={5}
-                                                className="focus:border-[#E8A341] focus:ring-[#E8A341]"
-                                                required
+                                                className={`focus:border-[#E8A341] focus:ring-[#E8A341] ${errors.message ? 'border-red-500' : ''}`}
+                                                disabled={isSubmitting}
                                             />
+                                            {errors.message && (
+                                                <p className="text-red-500 text-sm mt-1 flex items-center gap-1">
+                                                    <AlertCircle className="h-4 w-4" />
+                                                    {errors.message}
+                                                </p>
+                                            )}
                                         </motion.div>
 
                                         <motion.div
-                                            whileHover={{ scale: 1.02 }}
-                                            whileTap={{ scale: 0.98 }}
+                                            whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
+                                            whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
                                         >
-                                            <Button type="submit" size="lg" className="w-full bg-[#E8A341] hover:bg-[#D4941F] text-white">
-                                                <Send className="mr-2 h-4 w-4" />
-                                                Solicitar Orçamento
+                                            <Button 
+                                                type="submit" 
+                                                size="lg" 
+                                                className="w-full bg-[#E8A341] hover:bg-[#D4941F] text-white disabled:opacity-50"
+                                                disabled={isSubmitting}
+                                            >
+                                                {isSubmitting ? (
+                                                    <>
+                                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                                        Enviando E-mails...
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <Send className="mr-2 h-4 w-4" />
+                                                        Solicitar Orçamento
+                                                    </>
+                                                )}
                                             </Button>
                                         </motion.div>
                                     </form>
