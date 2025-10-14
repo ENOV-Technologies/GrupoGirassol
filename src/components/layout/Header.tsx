@@ -81,7 +81,7 @@ const Header = () => {
               whileTap={{ scale: 0.95 }}
             >
               <Button asChild className="bg-[#E8A341] hover:bg-[#D4941F] text-white">
-                <Link to="/Goldenrose">Visite a GoldenRose</Link>
+                <Link to="/Goldenrose" target={"_blank"}>Visite a GoldenRose</Link>
               </Button>
             </motion.div>
           </div>
