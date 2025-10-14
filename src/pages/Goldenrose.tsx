@@ -23,11 +23,12 @@ const locationImages = [
 ];
 
 const amenitiesImages = [
-    'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&q=80',
-    'https://images.unsplash.com/photo-1544966503-7cc5ac882d5f?w=800&q=80',
+    'https://images.pexels.com/photos/863988/pexels-photo-863988.jpeg',
     'https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=800&q=80',
-    'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80',
-    'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&q=80'
+    'https://images.unsplash.com/photo-1642772253959-e316335bac79?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1810',
+    'https://images.pexels.com/photos/430208/pexels-photo-430208.jpeg',
+    'https://images.unsplash.com/photo-1730575208519-04fe3bee68e5?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1450'
+    // 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&q=80'
 ];
 
 const t3Images = [
