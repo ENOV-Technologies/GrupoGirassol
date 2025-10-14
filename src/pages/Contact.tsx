@@ -203,7 +203,7 @@ const Contact = () => {
         },
         {
             icon: <Users className="h-8 w-8 text-[#E8A341]" />,
-            number: "500+",
+            number: "100+",
             label: "Projetos Realizados"
         },
         {

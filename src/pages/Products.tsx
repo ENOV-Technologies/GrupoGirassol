@@ -48,7 +48,7 @@ const Products = () => {
         "Relatórios técnicos detalhados"
       ],
       expertise: "10+ anos",
-      projects: "5000+",
+      projects: "100+",
       image: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=400&q=80"
     },
     {

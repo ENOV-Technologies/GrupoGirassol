@@ -10,25 +10,30 @@ import Loading from "./components/ui/loading";
 import { Toaster } from "./components/ui/toaster";
 import GoldenRose from "@/pages/Goldenrose.tsx";
 
-// Conditionally import tempo-routes only in Tempo environment
-const routes = import.meta.env.VITE_TEMPO === "true" 
-  ? await import("tempo-routes").then(m => m.default).catch(() => [])
-  : [];
-
 function App() {
   const [isLoading, setIsLoading] = useState(true);
+  const [routes, setRoutes] = useState([]);
   
+  useEffect(() => {
+    // Load tempo routes if in Tempo environment
+    const loadTempoRoutes = async () => {
+      if (import.meta.env.VITE_TEMPO === "true") {
+        try {
+          const tempoRoutes = await import("tempo-routes");
+          setRoutes(tempoRoutes.default || []);
+        } catch (error) {
+          console.log("Tempo routes not available");
+          setRoutes([]);
+        }
+      }
+      setIsLoading(false);
+    };
+
+    loadTempoRoutes();
+  }, []);
+
   // Always call useRoutes at the top level
   const tempoRoutes = useRoutes(routes);
-
-  useEffect(() => {
-    // Simulate initial loading
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
-
-    return () => clearTimeout(timer);
-  }, []);
 
   if (isLoading) {
     return <Loading />;
