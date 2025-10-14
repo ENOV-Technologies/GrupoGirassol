@@ -368,7 +368,7 @@ function Home() {
                 >
                     {[
                         { number: "15+", label: "Anos de Experiência" },
-                        { number: "500+", label: "Projetos Concluídos" },
+                        { number: "100+", label: "Projetos Concluídos" },
                         { number: "100%", label: "Clientes Satisfeitos" },
                         { number: "24/7", label: "Suporte Disponível" }
                     ].map((stat, index) => (
