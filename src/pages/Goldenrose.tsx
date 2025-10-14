@@ -67,6 +67,7 @@ const amenitiesImages = [
   "https://images.unsplash.com/photo-1642772253959-e316335bac79?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1810",
   "https://images.pexels.com/photos/430208/pexels-photo-430208.jpeg",
   "https://images.unsplash.com/photo-1730575208519-04fe3bee68e5?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1450",
+    'https://images.unsplash.com/photo-1644380344134-c8986ef44b59?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1670'
   // 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&q=80'
 ];
 
@@ -516,7 +517,7 @@ export default function GoldenRose() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
         {/* Location Section */}
         <AnimatedSection className="mb-8 sm:mb-12 lg:mb-16">
-          <div className="bg-white rounded-2xl p-4 sm:p-6 lg:p-8 shadow-lg hover:shadow-2xl transition-all duration-500">
+          <div className="bg-white rounded-2xl p-4 sm:p-6 lg:p-8 shadow-lg transition-all duration-500">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#772f1a] text-center mb-3 sm:mb-4">
               Localização Privilegiada
             </h2>
@@ -556,15 +557,9 @@ export default function GoldenRose() {
 
               <div className="space-y-3 sm:space-y-4 order-1 lg:order-2">
                 <img
-                  src="/goldenrose/location-overview.png"
+                  src="GoldenRose_Logo.svg"
                   alt="Golden Rose Location Overview"
-                  className="w-full rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105 cursor-pointer"
-                  onClick={() =>
-                    openGallery(
-                      ["/goldenrose/location-overview.png", ...locationImages],
-                      0,
-                    )
-                  }
+                  className="w-full rounded-xl h-40"
                 />
                 <div className="grid grid-cols-2 gap-2 sm:gap-4">
                   {locationImages.slice(0, 2).map((image, index) => (
@@ -584,7 +579,7 @@ export default function GoldenRose() {
 
         {/* New Video & Lifestyle Section */}
         <AnimatedSection className="mb-8 sm:mb-12 lg:mb-16">
-          <div className="bg-gradient-to-br from-[#772f1a]/5 via-white to-[#ee9b00]/5 rounded-2xl p-4 sm:p-6 lg:p-8 shadow-lg hover:shadow-2xl transition-all duration-500">
+          <div className="bg-gradient-to-br from-[#772f1a]/5 via-white to-[#ee9b00]/5 rounded-2xl p-4 sm:p-6 lg:p-8">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#772f1a] text-center mb-3 sm:mb-4">
               Viva o Equilíbrio Perfeito
             </h2>
@@ -648,32 +643,16 @@ export default function GoldenRose() {
                   Estilo de Vida Golden Rose
                 </h3>
 
-                {/* Main lifestyle showcase image */}
-                <img
-                  src="/goldenrose/lifestyle-section.png"
-                  alt="Golden Rose Lifestyle Overview"
-                  className="w-full rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105 cursor-pointer"
-                  onClick={() =>
-                    openGallery(
-                      [
-                        "/goldenrose/lifestyle-section.png",
-                        ...condominiumImages,
-                      ],
-                      0,
-                    )
-                  }
-                />
-
                 <div className="grid grid-cols-2 gap-2 sm:gap-4">
                   <div className="space-y-2 sm:space-y-4">
                     <img
-                      src="https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=800&q=80"
+                      src="https://images.unsplash.com/photo-1730575208519-04fe3bee68e5?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1450"
                       alt="Lifestyle - Pool Area"
                       className="w-full h-24 sm:h-32 object-cover rounded-lg shadow-md hover:shadow-xl transition-all duration-500 hover:scale-105 cursor-pointer"
                       onClick={() => openGallery(amenitiesImages, 0)}
                     />
                     <img
-                      src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=800&q=80"
+                      src="https://images.unsplash.com/photo-1642772253959-e316335bac79?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1810"
                       alt="Lifestyle - Garden"
                       className="w-full h-20 sm:h-24 object-cover rounded-lg shadow-md hover:shadow-xl transition-all duration-500 hover:scale-105 cursor-pointer"
                       onClick={() => openGallery(amenitiesImages, 3)}
@@ -681,13 +660,13 @@ export default function GoldenRose() {
                   </div>
                   <div className="space-y-2 sm:space-y-4">
                     <img
-                      src="https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=800&q=80"
+                      src="https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=800&q=80"
                       alt="Lifestyle - Family Area"
                       className="w-full h-20 sm:h-24 object-cover rounded-lg shadow-md hover:shadow-xl transition-all duration-500 hover:scale-105 cursor-pointer"
                       onClick={() => openGallery(amenitiesImages, 2)}
                     />
                     <img
-                      src="https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=800&q=80"
+                      src="https://images.pexels.com/photos/863988/pexels-photo-863988.jpeg"
                       alt="Lifestyle - Fitness"
                       className="w-full h-24 sm:h-32 object-cover rounded-lg shadow-md hover:shadow-xl transition-all duration-500 hover:scale-105 cursor-pointer"
                       onClick={() => openGallery(amenitiesImages, 1)}
@@ -714,14 +693,14 @@ export default function GoldenRose() {
                   Interessado em saber mais?
                 </h4>
                 <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
-                  <Button className="bg-[#772f1a] hover:bg-[#772f1a]/90 text-white px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base transition-all duration-300 hover:scale-105">
+                  <a href={"mailto:geral@goldenrose.grupogirassol.co.ao"} className="bg-[#772f1a] hover:bg-[#772f1a]/90 text-white px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base transition-all duration-300 hover:scale-105 flex rounded-xl">
                     <Phone className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
                     Agendar Visita
-                  </Button>
-                  <Button className="bg-[#ee9b00] hover:bg-[#ee9b00]/90 text-white px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base transition-all duration-300 hover:scale-105">
+                  </a>
+                  <a href={"mailto:geral@goldenrose.grupogirassol.co.ao"} className="bg-[#ee9b00] hover:bg-[#ee9b00]/90 text-white px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base transition-all duration-300 hover:scale-105 flex rounded-xl">
                     <Mail className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
                     Solicitar Informações
-                  </Button>
+                  </a>
                 </div>
               </div>
             </div>
@@ -846,8 +825,8 @@ export default function GoldenRose() {
         </AnimatedSection>
 
         {/* Amenities - Enhanced User-Friendly Section */}
-        <AnimatedSection className="mb-8 sm:mb-12 lg:mb-16">
-          <div className="bg-white rounded-2xl p-4 sm:p-6 lg:p-8 shadow-lg hover:shadow-2xl transition-all duration-500">
+        <AnimatedSection className="mb-8 sm:mb-12 lg:mb-16 py-20">
+          <div className="bg-white rounded-2xl p-4 sm:p-6 lg:p-8 ">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#772f1a] text-center mb-3 sm:mb-4">
               Comodidades
             </h2>
@@ -855,21 +834,6 @@ export default function GoldenRose() {
               Desfrute de um conjunto completo de comodidades pensadas para o
               seu bem-estar e lazer da família.
             </p>
-
-            {/* Featured Amenities Image */}
-            <div className="mb-8 sm:mb-10 lg:mb-12">
-              <img
-                src="/goldenrose/amenities-section.png"
-                alt="Golden Rose Amenities Overview"
-                className="w-full max-w-2xl mx-auto rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105 cursor-pointer"
-                onClick={() =>
-                  openGallery(
-                    ["/goldenrose/amenities-section.png", ...amenitiesImages],
-                    0,
-                  )
-                }
-              />
-            </div>
 
             {/* Amenities Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8 sm:mb-10">
@@ -879,28 +843,28 @@ export default function GoldenRose() {
                   desc: "Ginásio comunitário a céu aberto",
                   icon: "⚽",
                   image:
-                    "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=800&q=80",
+                    "https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=800&q=8",
                 },
                 {
                   title: "Piscina",
                   desc: "Explanada e salão de festas",
                   icon: "🏊‍♂️",
                   image:
-                    "https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=800&q=80",
+                    "https://images.pexels.com/photos/863988/pexels-photo-863988.jpeg",
                 },
                 {
                   title: "Parque Infantil",
                   desc: "Área de lazer para crianças",
                   icon: "🎪",
                   image:
-                    "https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=800&q=80",
+                    "https://images.unsplash.com/photo-1642772253959-e316335bac79?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1810",
                 },
                 {
                   title: "Jardim",
                   desc: "Espelho d'água e áreas verdes",
                   icon: "🌳",
                   image:
-                    "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=800&q=80",
+                    "https://images.unsplash.com/photo-1644380344134-c8986ef44b59?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1670",
                 },
               ].map((amenity, index) => (
                 <div
@@ -1060,9 +1024,9 @@ export default function GoldenRose() {
             {/* Featured Contact Image */}
             <div className="mb-6 sm:mb-8 text-center">
               <img
-                src="/goldenrose/contact-section.png"
+                src="/GoldenRoseIcon.svg"
                 alt="Golden Rose Contact Information"
-                className="w-full max-w-md mx-auto rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105"
+                className="w-full max-w-md mx-auto h-20"
               />
             </div>
 
@@ -1133,13 +1097,14 @@ export default function GoldenRose() {
                 <Phone className="h-4 w-4 mr-2" />
                 Agendar Visita
               </Button>
-              <Button
-                variant="outline"
-                className="border-2 border-white text-white hover:bg-white hover:text-[#772f1a] px-6 sm:px-8 py-2 sm:py-3 text-sm sm:text-base font-semibold transition-all duration-300 hover:scale-105 animate-in slide-in-from-right-4 duration-1000 delay-800"
-              >
-                <Upload className="h-4 w-4 mr-2" />
-                Descarregar Brochura
-              </Button>
+                <a
+                    href="/Portfólio Condomínio Golden Rose_compressed.pdf"
+                    download="Portfólio Condomínio Golden Rose_compressed.pdf"
+                    className="inline-flex items-center border-2 border-white text-white hover:bg-white hover:text-[#772f1a] px-6 text-sm sm:text-base font-semibold transition-all duration-300 hover:scale-105 animate-in slide-in-from-right-4 duration-1000 delay-800 rounded-md"
+                >
+                    <Upload className="h-4 w-4 mr-2" />
+                    Descarregar Brochura
+                </a>
             </div>
 
             {/* Additional Info */}
@@ -1243,104 +1208,104 @@ export default function GoldenRose() {
         title="Tipologia V4 - Galeria de Imagens"
       />
 
-      {/* T3 Modal */}
-      {isT3ModalOpen && (
-        <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-6">
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="text-2xl font-bold text-[#772f1a]">
-                  Galeria T3
-                </h3>
-                <Button
-                  onClick={() => setIsT3ModalOpen(false)}
-                  variant="outline"
-                  size="sm"
-                >
-                  ✕
-                </Button>
-              </div>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {t3Images.map((image, index) => (
-                  <img
-                    key={index}
-                    src={image}
-                    alt={`T3 ${index + 1}`}
-                    className="w-full h-48 object-cover rounded-lg cursor-pointer hover:opacity-80 transition-all duration-300 hover:scale-105"
-                    onClick={() => openGallery(t3Images, index)}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      {/*/!* T3 Modal *!/*/}
+      {/*{isT3ModalOpen && (*/}
+      {/*  <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">*/}
+      {/*    <div className="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">*/}
+      {/*      <div className="p-6">*/}
+      {/*        <div className="flex justify-between items-center mb-6">*/}
+      {/*          <h3 className="text-2xl font-bold text-[#772f1a]">*/}
+      {/*            Galeria T3*/}
+      {/*          </h3>*/}
+      {/*          <Button*/}
+      {/*            onClick={() => setIsT3ModalOpen(false)}*/}
+      {/*            variant="outline"*/}
+      {/*            size="sm"*/}
+      {/*          >*/}
+      {/*            ✕*/}
+      {/*          </Button>*/}
+      {/*        </div>*/}
+      {/*        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">*/}
+      {/*          {t3Images.map((image, index) => (*/}
+      {/*            <img*/}
+      {/*              key={index}*/}
+      {/*              src={image}*/}
+      {/*              alt={`T3 ${index + 1}`}*/}
+      {/*              className="w-full h-48 object-cover rounded-lg cursor-pointer hover:opacity-80 transition-all duration-300 hover:scale-105"*/}
+      {/*              onClick={() => openGallery(t3Images, index)}*/}
+      {/*            />*/}
+      {/*          ))}*/}
+      {/*        </div>*/}
+      {/*      </div>*/}
+      {/*    </div>*/}
+      {/*  </div>*/}
+      {/*)}*/}
 
-      {/* T4 Modal */}
-      {isT4ModalOpen && (
-        <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-6">
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="text-2xl font-bold text-[#772f1a]">
-                  Galeria T4
-                </h3>
-                <Button
-                  onClick={() => setIsT4ModalOpen(false)}
-                  variant="outline"
-                  size="sm"
-                >
-                  ✕
-                </Button>
-              </div>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {t4Images.map((image, index) => (
-                  <img
-                    key={index}
-                    src={image}
-                    alt={`T4 ${index + 1}`}
-                    className="w-full h-48 object-cover rounded-lg cursor-pointer hover:opacity-80 transition-all duration-300 hover:scale-105"
-                    onClick={() => openGallery(t4Images, index)}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      {/*/!* T4 Modal *!/*/}
+      {/*{isT4ModalOpen && (*/}
+      {/*  <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">*/}
+      {/*    <div className="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">*/}
+      {/*      <div className="p-6">*/}
+      {/*        <div className="flex justify-between items-center mb-6">*/}
+      {/*          <h3 className="text-2xl font-bold text-[#772f1a]">*/}
+      {/*            Galeria T4*/}
+      {/*          </h3>*/}
+      {/*          <Button*/}
+      {/*            onClick={() => setIsT4ModalOpen(false)}*/}
+      {/*            variant="outline"*/}
+      {/*            size="sm"*/}
+      {/*          >*/}
+      {/*            ✕*/}
+      {/*          </Button>*/}
+      {/*        </div>*/}
+      {/*        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">*/}
+      {/*          {t4Images.map((image, index) => (*/}
+      {/*            <img*/}
+      {/*              key={index}*/}
+      {/*              src={image}*/}
+      {/*              alt={`T4 ${index + 1}`}*/}
+      {/*              className="w-full h-48 object-cover rounded-lg cursor-pointer hover:opacity-80 transition-all duration-300 hover:scale-105"*/}
+      {/*              onClick={() => openGallery(t4Images, index)}*/}
+      {/*            />*/}
+      {/*          ))}*/}
+      {/*        </div>*/}
+      {/*      </div>*/}
+      {/*    </div>*/}
+      {/*  </div>*/}
+      {/*)}*/}
 
-      {/* V4 Modal */}
-      {isV4ModalOpen && (
-        <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-6">
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="text-2xl font-bold text-[#772f1a]">
-                  Galeria V4
-                </h3>
-                <Button
-                  onClick={() => setIsV4ModalOpen(false)}
-                  variant="outline"
-                  size="sm"
-                >
-                  ✕
-                </Button>
-              </div>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {v4Images.map((image, index) => (
-                  <img
-                    key={index}
-                    src={image}
-                    alt={`V4 ${index + 1}`}
-                    className="w-full h-48 object-cover rounded-lg cursor-pointer hover:opacity-80 transition-all duration-300 hover:scale-105"
-                    onClick={() => openGallery(v4Images, index)}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      {/*/!* V4 Modal *!/*/}
+      {/*{isV4ModalOpen && (*/}
+      {/*  <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">*/}
+      {/*    <div className="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">*/}
+      {/*      <div className="p-6">*/}
+      {/*        <div className="flex justify-between items-center mb-6">*/}
+      {/*          <h3 className="text-2xl font-bold text-[#772f1a]">*/}
+      {/*            Galeria V4*/}
+      {/*          </h3>*/}
+      {/*          <Button*/}
+      {/*            onClick={() => setIsV4ModalOpen(false)}*/}
+      {/*            variant="outline"*/}
+      {/*            size="sm"*/}
+      {/*          >*/}
+      {/*            ✕*/}
+      {/*          </Button>*/}
+      {/*        </div>*/}
+      {/*        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">*/}
+      {/*          {v4Images.map((image, index) => (*/}
+      {/*            <img*/}
+      {/*              key={index}*/}
+      {/*              src={image}*/}
+      {/*              alt={`V4 ${index + 1}`}*/}
+      {/*              className="w-full h-48 object-cover rounded-lg cursor-pointer hover:opacity-80 transition-all duration-300 hover:scale-105"*/}
+      {/*              onClick={() => openGallery(v4Images, index)}*/}
+      {/*            />*/}
+      {/*          ))}*/}
+      {/*        </div>*/}
+      {/*      </div>*/}
+      {/*    </div>*/}
+      {/*  </div>*/}
+      {/*)}*/}
       <p className=" text-gray-800  text-center">
         ©{new Date().getFullYear()} Goldenrose. Todos os direitos reservados.{" "}
         <br />
